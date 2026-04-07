@@ -8,14 +8,10 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">                      
-                                <h4 class="card-title">Roles</h4>                      
+                                <h4 class="card-title">Users</h4>                      
                             </div><!--end col-->
                             <div class="col-auto"> 
                                 <form class="row g-2">
-                                    <!-- <form action="{{ route('test.print') }}" method="POST">
-                                        @csrf
-                                        <button type="submit">Test Print</button>
-                                    </form> -->
                                     <div class="col-auto">
                                         <a class="btn bg-primary-subtle text-primary dropdown-toggle d-flex align-items-center arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" data-bs-auto-close="outside">
                                             <i class="iconoir-filter-alt me-1"></i> Filter
@@ -69,10 +65,9 @@
                                     </div><!--end col-->
                                     
                                     <div class="col-auto">
-                                        <a class="btn btn-primary" href="{{ route('role.create') }}">
-                                            <i class="fa-solid fa-plus me-1"></i> Add Role
+                                        <a class="btn btn-primary" href="{{ route('user.create') }}">
+                                            <i class="fa-solid fa-plus me-1"></i> Add Users
                                         </a>
-                                        <a href="/test-print">Test Print</a>
                                     </div><!--end col-->
                                 </form>    
                             </div><!--end col-->
@@ -86,7 +81,8 @@
                                   <tr>
                                     <th>No</th>
                                     <th class="ps-2">Name</th>
-                                    <th>Description</th>
+                                    <th>Email</th>
+                                    <th>Password</th>
                                     <th class="text-end">Action</th>
                                   </tr>
                                 </thead>
@@ -97,10 +93,11 @@
                                             <tr>
                                                 <td>{{ $i++ }}</td>
                                                 <td>{{ $row['name'] }}</td>
-                                                <td>{{ $row['description'] }}</td>
+                                                <td>{{ $row['email'] }}</td>
+                                                <td>{{ $row['password'] }}</td>
                                                 <td class="text-end">                                                       
-                                                    <a href="{{ route('role.edit', $row -> id) }}"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                    <a href="{{ route('role.delete', $row -> id) }}"><i class="las la-trash-alt text-secondary fs-18"></i></a>
+                                                    <a href="{{ route('user.edit', $row -> id) }}"><i class="las la-pen text-secondary fs-18"></i></a>
+                                                    <a href="{{ route('user.delete', $row -> id) }}"><i class="las la-trash-alt text-secondary fs-18"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach

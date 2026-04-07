@@ -6,6 +6,8 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PrinterController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -59,13 +61,24 @@ Route::get('posts-create', [PostController::class, 'create']) -> name('post.crea
 Route::post('posts-store', [PostController::class, 'store']) -> name('post.store');
 Route::get('posts-edit/{id}', [PostController::class, 'edit']) -> name('post.edit');
 Route::put('posts-update/{id}', [PostController::class, 'update']) -> name('post.update');
-Route::get('posts-destroy/{id}', [PostController::class, 'destroy']) -> name('post.delete');
+Route::delete('posts-destroy/{id}', [PostController::class, 'destroy']) -> name('post.delete');
 
-//Posts
+//Banners
 Route::get('banners-index', [BannerController::class, 'index']) -> name('banner.index');
 Route::get('banners-create', [BannerController::class, 'create']) -> name('banner.create');
 Route::post('banners-store', [BannerController::class, 'store']) -> name('banner.store');
 Route::get('banners-edit/{id}', [BannerController::class, 'edit']) -> name('banner.edit');
 Route::put('banners-update/{id}', [BannerController::class, 'update']) -> name('banner.update');
 Route::get('banners-destroy/{id}', [BannerController::class, 'destroy']) -> name('banner.delete');
+
+//Users
+Route::get('users-index', [UserController::class, 'index']) -> name('user.index');
+Route::get('users-create', [UserController::class, 'create']) -> name('user.create');
+Route::post('users-store', [UserController::class, 'store']) -> name('user.store');
+Route::get('users-edit/{id}', [UserController::class, 'edit']) -> name('user.edit');
+Route::put('users-update/{id}', [UserController::class, 'update']) -> name('user.update');
+Route::get('users-destroy/{id}', [UserController::class, 'destroy']) -> name('user.delete');
 // Route::resource('roles', 'RoleController');
+
+//Test test
+Route::get('/test-print', [PrinterController::class, 'printReceipt']) -> name('test.print');

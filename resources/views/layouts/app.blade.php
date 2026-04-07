@@ -335,19 +335,19 @@
                                         <a class="nav-link" href="{{ route('role.index') }}">Roles</a>
                                     </li><!--end nav-item-->
                                     <li class="nav-item">
-                                        <a class="nav-link" href="">Users</a>
+                                        <a class="nav-link" href="{{ route('user.index') }}">Users</a>
+                                    </li><!--end nav-item-->
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('banner.index') }}">Banners</a>
                                     </li><!--end nav-item-->
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('menu.index') }}">Menus</a>
                                     </li><!--end nav-item-->
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('site.index') }}">Site Settings</a>
-                                    </li><!--end nav-item-->
-                                    <li class="nav-item">
                                         <a class="nav-link" href="{{ route('post.index') }}">Posts</a>
                                     </li><!--end nav-item-->
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('banner.index') }}">Banners</a>
+                                        <a class="nav-link" href="{{ route('site.index') }}">Site Settings</a>
                                     </li><!--end nav-item-->
                                 </ul><!--end nav-->
                             </div><!--end startbarDashboards-->
