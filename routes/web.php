@@ -32,7 +32,7 @@ Route::post('/theme-set', function(Request $request){
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Roles
-Route::get('role-index', [RoleController::class, 'index']) -> name('role.index');
+Route::middleware(['permission:view roles'])->get('role-index', [RoleController::class, 'index']) -> name('role.index');
 Route::get('role-create', [RoleController::class, 'create']) -> name('role.create');
 Route::post('role-store', [RoleController::class, 'store']) -> name('role.store');
 Route::get('role-edit/{id}', [RoleController::class, 'edit']) -> name('role.edit');
@@ -72,12 +72,12 @@ Route::put('banners-update/{id}', [BannerController::class, 'update']) -> name('
 Route::get('banners-destroy/{id}', [BannerController::class, 'destroy']) -> name('banner.delete');
 
 //Users
-Route::get('users-index', [UserController::class, 'index']) -> name('user.index');
-Route::get('users-create', [UserController::class, 'create']) -> name('user.create');
-Route::post('users-store', [UserController::class, 'store']) -> name('user.store');
-Route::get('users-edit/{id}', [UserController::class, 'edit']) -> name('user.edit');
-Route::put('users-update/{id}', [UserController::class, 'update']) -> name('user.update');
-Route::get('users-destroy/{id}', [UserController::class, 'destroy']) -> name('user.delete');
+Route::middleware(['permission:view users'])->get('users-index', [UserController::class, 'index']) -> name('user.index');
+Route::middleware(['permission:create users'])->get('users-create', [UserController::class, 'create']) -> name('user.create');
+Route::middleware(['permission:create users'])->post('users-store', [UserController::class, 'store']) -> name('user.store');
+Route::middleware(['permission:edit users'])->get('users-edit/{id}', [UserController::class, 'edit']) -> name('user.edit');
+Route::middleware(['permission:edit users'])->put('users-update/{id}', [UserController::class, 'update']) -> name('user.update');
+Route::middleware(['permission:delete users'])->get('users-destroy/{id}', [UserController::class, 'destroy']) -> name('user.delete');
 // Route::resource('roles', 'RoleController');
 
 //Test test

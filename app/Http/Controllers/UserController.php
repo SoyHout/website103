@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use \Spatie\Permission\Models\Role;
 class UserController extends Controller
 {
     /**
@@ -12,7 +12,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $rows = User::all();
+        $rows = User::with('roles')->get();
         return view('users.index', compact('rows'));
     }
 
@@ -21,7 +21,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $roles = Role::all();
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -30,26 +31,28 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request -> validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:8',
+            'roles' => 'required|exists:roles,name'
         ]);
 
-        User::create([
-            'name' => $request -> name,
-            'email' => $request -> email,
-            'password' => bcrypt($request -> password),
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
         ]);
 
-        return redirect() -> route('user.index') -> with('success', 'User Created Successfully!');
+        $user->syncRoles([$validated['roles']]);
+        return redirect() -> route('user.index', $user) -> with('success', 'User Created Successfully!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        return view('users.index', compact('user')); // Assuming you have a view for showing user details
     }
 
     /**
@@ -58,7 +61,8 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $row = User::findOrFail($id);
-        return view('users.edit', compact('row'));
+        $roles = Role::all();
+        return view('users.edit', compact('row', 'roles'));
     }
 
     /**
@@ -68,22 +72,25 @@ class UserController extends Controller
     {
         $row = User::findOrFail($id);
         $validated = $request -> validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-            'password' => 'nullable|string|min:8|confirmed',
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users,email,'.$id,
+            'password' => 'nullable|string|min:8',
+            'roles' => 'required|exists:roles,name'
         ]);
 
         $row -> update([
-            'name' => $request -> name,
-            'email' => $request -> email,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
         ]);
         
         if($request -> password){
             $row -> update([
-                'password' => bcrypt($request -> password),
+                'password' => bcrypt($validated['password']),
             ]);
         }
-        return redirect() -> route('user.index') -> with('success', 'User Updated Successfully!');
+
+        $row->syncRoles([$validated['roles']]);
+        return redirect() -> route('user.index', $row) -> with('success', 'User Updated Successfully!');
     }
 
     /**

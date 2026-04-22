@@ -29,6 +29,16 @@
                                 <label for="password" class="form-label">Password</label>
                                 <textarea name = "password" class = "form-control" rows ="2">{{ $row -> password }}</textarea>
                             </div>
+                            <div class="mb-2">
+                                <label for="roles" class="form-label">Roles</label>
+                                <select name="roles" class="form-control">
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role->name }}" {{ $row->roles->contains('name', $role->name) ? 'selected' : '' }}>
+                                            {{ $role->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form><!--end form-->            
                     </div><!--end card-body--> 

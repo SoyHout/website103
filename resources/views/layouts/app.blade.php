@@ -331,12 +331,16 @@
                             </a>
                             <div class="collapse " id="sidebarUsermanagement">
                                 <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('role.index') }}">Roles</a>
-                                    </li><!--end nav-item-->
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('user.index') }}">Users</a>
-                                    </li><!--end nav-item-->
+                                    @can('view roles')
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('role.index') }}">Roles</a>
+                                        </li><!--end nav-item-->
+                                    @endcan
+                                    @can('view users')
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('user.index') }}">Users</a>
+                                        </li><!--end nav-item-->
+                                    @endcan
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('banner.index') }}">Banners</a>
                                     </li><!--end nav-item-->

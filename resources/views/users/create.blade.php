@@ -21,11 +21,22 @@
                             </div>
                             <div class="mb-2">
                                 <label for="email" class="form-label">Email</label>
-                                <textarea name = "email" class = "form-control" rows ="2" placeholder="Email"></textarea>
+                                <input name = "email" class = "form-control" type="email" placeholder="Email" required>
+                            </div>
+                            <div class="mb-2">
+                                <label for="roles" class="form-label">Roles</label>
+                                <select name="roles">
+                                        <option value="">Select Role</option>
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role->name }}">
+                                            {{ $role->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="mb-2">
                                 <label for="password" class="form-label">Password</label>
-                                <textarea name = "password" class = "form-control" rows ="2" placeholder="Password"></textarea>
+                                <input name = "password" class = "form-control" type="password" placeholder="Password" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form><!--end form-->            
@@ -35,3 +46,13 @@
         </div><!--end row-->
     </div><!-- container -->
 @endsection
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif

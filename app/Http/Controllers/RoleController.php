@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Role;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -12,7 +12,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $rows = Role::whereNull('deleted_at') -> get();
+        $rows = Role::all();
         return view('roles.index', compact('rows')); // Assuming you have a view for listing roles
     }
 

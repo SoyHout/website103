@@ -65,9 +65,11 @@
                                     </div><!--end col-->
                                     
                                     <div class="col-auto">
-                                        <a class="btn btn-primary" href="{{ route('user.create') }}">
-                                            <i class="fa-solid fa-plus me-1"></i> Add Users
-                                        </a>
+                                        @can('create users')
+                                            <a class="btn btn-primary" href="{{ route('user.create') }}">
+                                                <i class="fa-solid fa-plus me-1"></i> Add Users
+                                            </a>
+                                        @endcan
                                     </div><!--end col-->
                                 </form>    
                             </div><!--end col-->
@@ -83,21 +85,29 @@
                                     <th class="ps-2">Name</th>
                                     <th>Email</th>
                                     <th>Password</th>
-                                    <th class="text-end">Action</th>
+                                    <th>Role</th>
+                                    @can('edit users')
+                                        <th class="text-end">Action</th>
+                                    @endcan
                                   </tr>
                                 </thead>
                                 <tbody>
                                     @if ($rows)
                                     @php($i = 1)
-                                        @foreach ( $rows as $row )
+                                        @foreach ( $rows as $user )
                                             <tr>
                                                 <td>{{ $i++ }}</td>
-                                                <td>{{ $row['name'] }}</td>
-                                                <td>{{ $row['email'] }}</td>
-                                                <td>{{ $row['password'] }}</td>
-                                                <td class="text-end">                                                       
-                                                    <a href="{{ route('user.edit', $row -> id) }}"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                    <a href="{{ route('user.delete', $row -> id) }}"><i class="las la-trash-alt text-secondary fs-18"></i></a>
+                                                <td>{{ $user['name'] }}</td>
+                                                <td>{{ $user['email'] }}</td>
+                                                <td>{{ $user['password'] }}</td>
+                                                <td>{{ $user->roles->pluck('name')->join(', ') }}</td>
+                                                <td class="text-end">
+                                                    @can('edit users')
+                                                        <a href="{{ route('user.edit', $user -> id) }}"><i class="las la-pen text-secondary fs-18"></i></a>
+                                                    @endcan
+                                                    @can('delete users')
+                                                        <a href="{{ route('user.delete', $user -> id) }}"><i class="las la-trash-alt text-secondary fs-18"></i></a>
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach
