@@ -28,4 +28,4 @@ RUN chmod -R 755 /var/www/storage
 RUN chmod -R 755 /var/www/bootstrap/
 RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT [ "docker/entrypoint.sh" ]
+ENTRYPOINT [ "/docker/entrypoint.sh" ]
