@@ -76,9 +76,9 @@ test('Can delete a user', function () {
     ]);
 });
 
-test('use the testing environment', function () {
-    dump([
-        'app_env_helper' => app()->environment(),
-        'env_var' => env('APP_ENV'),
-        'env_config' => config('app.env'),]);
-});
+// test('use the testing environment', function () {
+//     dump([
+//         'app_env_helper' => app()->environment(),
+//         'env_var' => env('APP_ENV'),
+//         'env_config' => config('app.env'),]);
+// });
