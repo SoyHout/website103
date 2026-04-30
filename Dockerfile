@@ -18,7 +18,7 @@ COPY --chown=www-data . .
 COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY docker/entrypoint.sh /docker/entrypoint.sh
+COPY docker/entrypoint.sh /entrypoint.sh
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # RUN php artisan cache:clear
@@ -28,4 +28,4 @@ RUN chmod -R 755 /var/www/storage
 RUN chmod -R 755 /var/www/bootstrap/
 RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT [ "/docker/entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
