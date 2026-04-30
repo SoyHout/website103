@@ -24,14 +24,20 @@ jobs:
 
     - name: Fix permissions
       run: chmod -x docker/entrypoint.sh
-      
+
     - name: Build Container
       run: docker compose build
 
-    - name: Start Container
-      run: docker compose up -d
+    - name: Start Database Container
+      run: docker compose up -d db
+    
+    - name: Wait for DB Container to be Ready
+      run: sleep 10
+    
+    - name: Start Application Container
+      run: docker compose up -d app
 
-    - name: Wait for Container to be Ready
+    - name: Wait for Application Container to be Ready
       run: sleep 10
 
     - name: Run Migration
