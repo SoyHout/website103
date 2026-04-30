@@ -44,7 +44,7 @@ class UserController extends Controller
         ]);
 
         $user->syncRoles([$validated['roles']]);
-        return redirect() -> route('user.index', $user) -> with('success', 'User Created Successfully!');
+        return redirect() -> route('user.index') -> with('success', 'User Created Successfully!');
     }
 
     /**
@@ -90,7 +90,7 @@ class UserController extends Controller
         }
 
         $row->syncRoles([$validated['roles']]);
-        return redirect() -> route('user.index', $row) -> with('success', 'User Updated Successfully!');
+        return redirect() -> route('user.index') -> with('success', 'User Updated Successfully!');
     }
 
     /**

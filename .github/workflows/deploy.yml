@@ -1,0 +1,38 @@
+name: CI Test
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out working-repository
+      uses: actions/checkout@v2
+
+    - name: Set up environment
+      run: |
+        cp .env.example .env
+        echo "DB_CONNECTION=mysql" >> .env
+        echo "DB_HOST=db" >> .env
+        echo "DB_PORT=3306" >> .env
+        echo "DB_DATABASE=website103" >> .env
+        echo "DB_USERNAME=root" >> .env
+        echo "DB_PASSWORD=" >> .env
+
+    - name: Build Container
+      run: docker compose build
+
+    - name: Start Container
+      run: docker compose up -d
+
+    - name: Wait for Container to be Ready
+      run: sleep 10
+
+    - name: Run Migration
+      run: docker compose exec app php artisan migrate --force
+    
+    - name: Run Tests
+      run: docker compose exec app php artisan test
