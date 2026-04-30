@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ ! -f "vendor/autoload.php" ]; then
+if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
     echo "Setting up Laravel application..."
     composer install --no-progress --no-interaction
 fi
