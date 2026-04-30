@@ -22,6 +22,9 @@ jobs:
         echo "DB_USERNAME=root" >> .env
         echo "DB_PASSWORD=" >> .env
 
+    - name: Fix permissions
+      run: chmod -x docker/entrypoint.sh
+      
     - name: Build Container
       run: docker compose build
 
