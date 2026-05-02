@@ -28,18 +28,12 @@ jobs:
     - name: Build Container
       run: docker compose build
 
-    - name: Start Database Container
-      run: docker compose up -d db
+    - name: Start Container
+      run: docker compose up -d 
     
-    - name: Wait for DB Container to be Ready
-      run: sleep 10
+    - name: Wait for Container to be Ready
+      run: sleep 30
     
-    - name: Start Application Container
-      run: docker compose up -d app
-
-    - name: Wait for Application Container to be Ready
-      run: sleep 10
-
     - name: Run Migration
       run: docker compose exec app php artisan migrate --force
     
