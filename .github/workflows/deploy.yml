@@ -25,12 +25,37 @@ jobs:
     - name: Fix permissions
       run: chmod -x docker/entrypoint.sh
 
+    - name: Clean Old Containers
+      run: docker compose down -v --remove-orphans || true
+
     - name: Build Container
       run: docker compose build --no-cache
 
     - name: Start Container
-      run: docker compose up --force-recreate -d 
+      run: docker compose up --force-recreate -d  || true
     
+    - name: Check Container Status
+      run: docker compose ps
+
+    - name: Wait for Database to be Healthy
+      run: |
+        echo "Waiting for dabatase to be healthy..."
+        for i in {1..30}; do
+          STATUS=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}Starting{{end}}' db)
+          if [ "$STATUS" = "healthy" ]; then
+            echo "Database is healthy!"
+            exit 0
+          fi
+          sleep 5
+        done
+
+        echo "Database did not become healthy in time."
+        docker compose logs db
+        exit 1
+
+    - name: Debug Container DB Logs
+      run: docker compose logs db
+
     - name: Wait for Container to be Ready
       run: sleep 30
     
