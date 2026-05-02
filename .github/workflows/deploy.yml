@@ -41,7 +41,7 @@ jobs:
       run: |
         echo "Waiting for dabatase to be healthy..."
         for i in {1..30}; do
-          STATUS=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}Starting{{end}}' db)
+          STATUS=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}Starting{{end}}' mysql_db)
           if [ "$STATUS" = "healthy" ]; then
             echo "Database is healthy!"
             exit 0
