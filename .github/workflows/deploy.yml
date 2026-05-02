@@ -57,7 +57,7 @@ jobs:
       run: docker compose logs db
 
     - name: Wait for Container to be Ready
-      run: sleep 30
+      run: sleep 10
     
     - name: Run Migration
       run: docker compose exec app php artisan migrate --force
