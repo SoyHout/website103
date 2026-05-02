@@ -23,8 +23,8 @@ COPY docker/entrypoint.sh /entrypoint.sh
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # RUN php artisan cache:clear
+# RUN php artisan config:clear
 
-RUN php artisan config:clear
 RUN composer install --no-interaction --prefer-dist
 RUN chmod -R 755 /var/www/storage
 RUN chmod -R 755 /var/www/bootstrap/
