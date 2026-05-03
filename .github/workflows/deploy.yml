@@ -14,10 +14,13 @@ jobs:
     - name: Add VPS host key
       run: |
         mkdir -p ~/.ssh
-        printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+        printf "%s" "${{ secrets.SSH_PRIVATE_KEY_B64 }}" | base64 -d > ~/.ssh/id_ed25519
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan -H 46.250.239.158 >> ~/.ssh/known_hosts
     
+    - name: Validate key
+      run: ssh-keygen -l -f ~/.ssh/id_ed25519
+      
     - name: SSH to VPS
       run: ssh root@46.250.239.158
 
