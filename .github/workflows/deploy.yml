@@ -1,69 +1,32 @@
-name: CI Test
+name: CD Test
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI Test"]
     branches: [ master ]
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out working-repository
-      uses: actions/checkout@v2
+    - name: SSH to VPS
+      run: ssh root@46.250.239.158 "echo 'Connected to VPS!'" 
 
-    - name: Set up environment
-      run: cp .env.example .env
-      env:
-        DB_CONNECTION: mysql
-        DB_HOST: db
-        DB_PORT: 3306
-        DB_DATABASE: website103
-        DB_USERNAME: root
-        DB_PASSWORD: root
-        
-    - name: Fix permissions
-      run: chmod -x docker/entrypoint.sh
+    - name: Go into project directory and pull latest changes
+      run: cd /var/www/website103 && git pull origin master
 
-    - name: Clean Old Containers
-      run: docker compose down -v --remove-orphans || true
-
-    - name: Build Container
-      run: docker compose build --no-cache
-
-    - name: Start Container
-      run: docker compose up --force-recreate -d  || true
-    
-    - name: Check Container Status
-      run: docker compose ps
-
-    - name: Wait for Database to be Healthy
+    - name: Build and restart Docker containers
       run: |
-        echo "Waiting for dabatase to be healthy..."
-        for i in {1..30}; do
-          STATUS=$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}Starting{{end}}' mysql_db)
-          if [ "$STATUS" = "healthy" ]; then
-            echo "Database is healthy!"
-            exit 0
-          fi
-          sleep 5
-        done
+        cd /var/www/website103
+        docker compose build
+        docker compose up -d --wait || true
 
-        echo "Database did not become healthy in time."
-        docker compose logs db
-        exit 1
-
-    - name: Debug Container DB Logs
-      run: docker compose logs db
-
-    - name: Wait for Container to be Ready
-      run: sleep 10
-    
-    - name: Run Migration
+    - name: migrate database
       run: docker compose exec app php artisan migrate --force
-    
-    - name: Seed Database
-      run: docker compose exec app php artisan db:seed --force
-    
-    - name: Run Tests
-      run: docker compose exec app php artisan test
+
+    - name: Clear or Optimize Cache
+      run: docker compose exec app php artisan optimize:clear
+      
+    - name: Clear permission cache
+      run: docker compose exec app php artisan permission:cache-reset
