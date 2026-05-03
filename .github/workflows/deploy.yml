@@ -14,7 +14,9 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         ssh-keyscan -H 46.250.239.158 >> ~/.ssh/known_hosts
-        
+    - name: Deploy to VPS
+      run: ssh root@46.250.239.158
+      
     - name: Go into project directory and pull latest changes
       run: cd website103 && git pull origin master
 
