@@ -22,21 +22,13 @@ jobs:
       run: ssh-keygen -l -f ~/.ssh/id_ed25519
 
     - name: SSH to VPS
-      run: ssh root@46.250.239.158
-
-    - name: Go into project directory and pull latest changes
-      run: cd /var/www/website103 && git pull origin master
-
-    - name: Build and restart Docker containers
-      run: |
-        docker compose build
-        docker compose up -d --wait || true
+      run: ssh root@46.250.239.158 "cd /var/www/website103 && git pull origin master && docker compose up -d --build"
 
     - name: migrate database
-      run: docker compose exec app php artisan migrate --force
+      run: ssh root@46.250.239.158 "cd /var/www/website103 && docker compose exec app php artisan migrate --force"
 
     - name: Clear or Optimize Cache
-      run: docker compose exec app php artisan optimize:clear
-      
+      run: ssh root@46.250.239.158 "cd /var/www/website103 && docker compose exec app php artisan optimize:clear"
+
     - name: Clear permission cache
-      run: docker compose exec app php artisan permission:cache-reset
+      run: ssh root@46.250.239.158 "cd /var/www/website103 && docker compose exec app php artisan permission:cache-reset"
