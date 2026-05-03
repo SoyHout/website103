@@ -16,11 +16,10 @@ jobs:
         ssh-keyscan -H 46.250.239.158 >> ~/.ssh/known_hosts
         
     - name: Go into project directory and pull latest changes
-      run: cd /var/www/website103 && git pull origin master
+      run: cd website103 && git pull origin master
 
     - name: Build and restart Docker containers
       run: |
-        cd /var/www/website103
         docker compose build
         docker compose up -d --wait || true
 
