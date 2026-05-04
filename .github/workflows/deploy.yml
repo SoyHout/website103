@@ -21,7 +21,7 @@ jobs:
     - name: Validate key
       run: ssh-keygen -l -f ~/.ssh/id_ed25519
 
-    - name: SSH to VPS
+    - name: Deploy to VPS
       run: ssh root@46.250.239.158 "cd /var/www/website103 && git pull origin master && docker compose up -d --build"
 
     - name: migrate database

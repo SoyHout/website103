@@ -8,7 +8,7 @@
                             <div class="card-body">
                                 <div class="row d-flex justify-content-center border-dashed-bottom pb-3">
                                     <div class="col-9">
-                                        <p class="text-dark mb-0 fw-semibold fs-14">Active</p>
+                                        <p class="text-dark mb-0 fw-semibold fs-14">Inactive</p>
                                         <h3 class="mt-2 mb-0 fw-bold">24k</h3>
                                     </div>
 
