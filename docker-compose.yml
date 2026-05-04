@@ -35,7 +35,7 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
 volumes:
   db_data: ~
   # app_data: ~
