@@ -31,6 +31,7 @@ jobs:
 
     - name: Deploy to VPS
       run: ssh root@46.250.239.158 "cd /var/www/website103  && docker compose up -d --build"
+
     - name: migrate database
       run: ssh root@46.250.239.158 "cd /var/www/website103 && docker compose exec app php artisan migrate --force"
 
