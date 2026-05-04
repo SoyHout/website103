@@ -21,14 +21,21 @@ jobs:
     - name: Validate key
       run: ssh-keygen -l -f ~/.ssh/id_ed25519
 
-    - name: Deploy to VPS
-      run: ssh root@46.250.239.158 "cd /var/www/website103 && git pull origin master && docker compose up -d --build"
+    - name: Pull the Updates on VPS
+      run: ssh root@46.250.239.158 "cd /var/www/website103 && git pull origin master"
 
+    - name: Set up environment
+      run: ssh root@46.250.239.158 "cd /var/www/website103 && cp .env.production .env
+        echo 'DB_PASSWORD=${{ secrets.DB_PASSWORD }}' >> .env
+        echo 'APP_KEY=${{ secrets.APP_KEY }}' >> .env"
+
+    - name: Deploy to VPS
+      run: ssh root@46.250.239.158 "cd /var/www/website103  && docker compose up -d --build"
     - name: migrate database
       run: ssh root@46.250.239.158 "cd /var/www/website103 && docker compose exec app php artisan migrate --force"
 
     - name: Clear or Optimize Cache
-      run: ssh root@46.250.239.158 "cd /var/www/website103 && docker compose exec app php artisan optimize:clear"
+      run: ssh root@46.250.239.158 "cd /var/www/website103 && docker compose exec app php artisan optimize:clear && docker compose exec app php artisan cache:clear"
 
     - name: Clear permission cache
-      run: ssh root@46.250.239.158 "cd /var/www/website103 && docker compose exec app php artisan permission:cache-reset"
+      run: ssh root@46.250.239.158 "cd /var/www/website103 && docker compose exec app php artisan permission:cache-reset && docker compose exec app php artisan cache:clear"

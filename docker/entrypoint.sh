@@ -6,7 +6,7 @@ fi
 
 if [ ! -f ".env" ]; then
     echo "Creating .env file..."
-    cp .env.example .env
+    cp .env.production .env
 fi
 
 php-fpm -D
