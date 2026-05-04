@@ -25,8 +25,8 @@ jobs:
       run: ssh root@46.250.239.158 "cd /var/www/website103 && git pull origin master"
 
     - name: Set up environment
-      run: ssh root@46.250.239.158 "cd /var/www/website103 && cp .env.production .env
-        echo 'DB_PASSWORD=${{ secrets.DB_PASSWORD }}' >> .env
+      run: ssh root@46.250.239.158 "cd /var/www/website103 && cp .env.production .env &&
+        echo 'DB_PASSWORD=${{ secrets.DB_PASSWORD }}' >> .env &&
         echo 'APP_KEY=${{ secrets.APP_KEY }}' >> .env"
 
     - name: Deploy to VPS
