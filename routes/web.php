@@ -29,7 +29,7 @@ Route::post('/theme-set', function(Request $request){
 
 // Route::get('login', [HomeController::class, 'login']) -> name('login');
 
-Route::middleware(['role:admin'])->get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Roles
 Route::middleware(['permission:view roles'])->get('role-index', [RoleController::class, 'index']) -> name('role.index');
