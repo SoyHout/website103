@@ -19,6 +19,7 @@ class RolesSeeder extends Seeder
         Role::firstOrCreate(['name' => 'developer']);
         Role::firstOrCreate(['name' => 'customer']);
         Role::firstOrCreate(['name' => 'member']);
+        Role::firstOrCreate(['name' => 'receptionist']);
 
         Permission::firstOrCreate(['name' => 'edit users']);
         Permission::firstOrCreate(['name' => 'delete users']);
@@ -28,7 +29,8 @@ class RolesSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'assign roles']);
         Permission::firstOrCreate(['name' => 'revoke roles']);
         Permission::firstOrCreate(['name' => 'manage permissions']);
-
+        Permission::firstOrCreate(['name' => 'view users password']);
+        
         $role = Role::findByName('admin');
         $role->givePermissionTo('view roles');
         $role->givePermissionTo('assign roles');
@@ -38,8 +40,16 @@ class RolesSeeder extends Seeder
         $role->givePermissionTo('delete users');
         $role->givePermissionTo('create users');
         $role->givePermissionTo('view users');  
+        $role->givePermissionTo('view users password');  
+
+
+        $role2 = Role::findByName('member');
+        $role2->givePermissionTo('view users');
 
         $user = User::find(1);
         $user->assignRole('admin');
+
+        $user2 = User::find(2);
+        $user2->assignRole('member');
     }
 }

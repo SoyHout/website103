@@ -84,7 +84,9 @@
                                     <th>No</th>
                                     <th class="ps-2">Name</th>
                                     <th>Email</th>
-                                    <th>Password</th>
+                                    @can('view users password')
+                                        <th>Password</th>
+                                    @endcan
                                     <th>Role</th>
                                     @can('edit users')
                                         <th class="text-end">Action</th>
@@ -99,7 +101,9 @@
                                                 <td>{{ $i++ }}</td>
                                                 <td>{{ $user['name'] }}</td>
                                                 <td>{{ $user['email'] }}</td>
-                                                <td>{{ $user['password'] }}</td>
+                                                @can('view users password')
+                                                    <td>{{ $user['password'] }}</td>
+                                                @endcan
                                                 <td>{{ $user->roles->pluck('name')->join(', ') }}</td>
                                                 <td class="text-end">
                                                     @can('edit users')
