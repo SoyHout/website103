@@ -33,8 +33,7 @@ class UserController extends Controller
         $validated = $request -> validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8',
-            'roles' => 'required|exists:roles,name'
+            'password' => 'required|string|min:8'
         ]);
 
         $user = User::create([
@@ -43,7 +42,7 @@ class UserController extends Controller
             'password' => bcrypt($validated['password']),
         ]);
 
-        $user->syncRoles([$validated['roles']]);
+        $user->assignRole('member');
         return redirect() -> route('user.index') -> with('success', 'User Created Successfully!');
     }
 
@@ -82,7 +81,7 @@ class UserController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
         ]);
-        
+
         if($request -> password){
             $row -> update([
                 'password' => bcrypt($validated['password']),
