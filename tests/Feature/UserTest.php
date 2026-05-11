@@ -8,18 +8,23 @@ use function Pest\Laravel\{get, post, put, delete, assertDatabaseHas, assertData
 beforeEach(function () {
     $permission1 = Permission::create(['name' => 'view users']);
     $permission2 = Permission::create(['name' => 'create users']);
-    $permission3 = Permission::create(['name' => 'edit users']);  
+    $permission3 = Permission::create(['name' => 'edit users']);
     $permission4 = Permission::create(['name' => 'delete users']);
+
     $user = User::factory()->create();
+
     $role = Role::create(['name' => 'admin']);
+
     $role->givePermissionTo($permission1);
     $role->givePermissionTo($permission2);
     $role->givePermissionTo($permission3);
     $role->givePermissionTo($permission4);
+
     $user->assignRole($role);
 
     actingAs($user);
 });
+
 test('Can create a user with role', function () {
     $role = Role::create(['name' => 'member']);
     $response = post(route('user.store'), [
@@ -35,7 +40,7 @@ test('Can create a user with role', function () {
         'name' => 'John Doe',
         'email' => 'john@example.com',
     ]);
-    $user = actingAs(User::factory()->create())->get(route('user.index'));
+
     $user = User::where('email', 'john@example.com')->first();
     expect($user)->not->toBeNull();
     expect($user->hasRole($role->name))->toBeTrue();
@@ -44,7 +49,7 @@ test('Can create a user with role', function () {
 test('Can update a user and change role', function () {
     $role1 = Role::create(['name' => 'editor']);
     $role2 = Role::create(['name' => 'receptionist']);
-    
+
     $user = User::factory()->create([
         'password' => bcrypt('oldpassword'),
     ]);
