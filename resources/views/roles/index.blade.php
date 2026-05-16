@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-xxl"> 
+    <div class="container-xxl">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
-                            <div class="col">                      
-                                <h4 class="card-title">Roles</h4>                      
+                            <div class="col">
+                                <h4 class="card-title">Roles</h4>
                             </div><!--end col-->
-                            <div class="col-auto"> 
+                            <div class="col-auto">
                                 <form class="row g-2">
                                     <!-- <form action="{{ route('test.print') }}" method="POST">
                                         @csrf
@@ -25,7 +25,7 @@
                                                 <div class="form-check mb-2">
                                                     <input type="checkbox" class="form-check-input" checked id="filter-all">
                                                     <label class="form-check-label" for="filter-all">
-                                                      All 
+                                                      All
                                                     </label>
                                                 </div>
                                                 <div class="form-check mb-2">
@@ -67,19 +67,19 @@
                                             </div>
                                         </div>
                                     </div><!--end col-->
-                                    
+
                                     <div class="col-auto">
                                         <a class="btn btn-primary" href="{{ route('role.create') }}">
                                             <i class="fa-solid fa-plus me-1"></i> Add Role
                                         </a>
                                         <a href="/test-print">Test Print</a>
                                     </div><!--end col-->
-                                </form>    
+                                </form>
                             </div><!--end col-->
-                        </div><!--end row-->                                  
+                        </div><!--end row-->
                     </div><!--end card-header-->
                     <div class="card-body pt-0">
-                        
+
                         <div class="table-responsive">
                             <table class="table mb-0 checkbox-all" id="datatable_1">
                                 <thead class="table-light">
@@ -98,10 +98,12 @@
                                                 <td>{{ $i++ }}</td>
                                                 <td>{{ $row['name'] }}</td>
                                                 <td>{{ $row['description'] }}</td>
-                                                <td class="text-end">                                                       
-                                                    <a href="{{ route('role.edit', $row -> id) }}"><i class="las la-pen text-secondary fs-18"></i></a>
-                                                    <a href="{{ route('role.delete', $row -> id) }}"><i class="las la-trash-alt text-secondary fs-18"></i></a>
-                                                </td>
+                                                @can('view roles')
+                                                    <td class="text-end">
+                                                        <a href="{{ route('role.edit', $row -> id) }}"><i class="las la-pen text-secondary fs-18"></i></a>
+                                                        <a href="{{ route('role.delete', $row -> id) }}"><i class="las la-trash-alt text-secondary fs-18"></i></a>
+                                                    </td>
+                                                @endcan
                                             </tr>
                                         @endforeach
                                     @endif
@@ -111,6 +113,6 @@
                     </div>
                 </div>
             </div> <!-- end col -->
-        </div> <!-- end row -->                                     
+        </div> <!-- end row -->
     </div><!-- container -->
 @endsection
